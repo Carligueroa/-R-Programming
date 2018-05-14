@@ -1,0 +1,48 @@
+---
+title: "Paquetes en R"
+author: "Carlos Figueroa"
+date: '2018-05-13'
+slug: paquetes-en-r
+tags:
+- RStudio
+- Paquetes
+categories: R
+---
+
+
+
+<div id="introduccion" class="section level1">
+<h1>Introducción</h1>
+<p>En el siguiente tutorial aprenderemos sobre como instalar los paquetes en R y la manera correcta de cargarlos al ambiente de trabajo.</p>
+<p>Un paquete (o también llamado librería) son un conjunto de funciones desarrolladas previamente por otras personas. R se ha vuelto un lenguaje de programación popular porque ofrece una amplia gama de paquetes libres respaldados por una comunidad que siempre se encuentra en constante desarrollo de nuevos paquetes y mejorando los que ya existen, así como también ofrece la posibilidad a cualquier usuario de crear nuevos paquetes.
+2
+Un paquete en resumen, nos hace la vida más fácil, pues hace que nuestro código sea mucho más eficiente, legible, y se reduce considerablemente el tiempo en el que lo desarrollamos, porque en lugar de escribir nuevas funciones, utilizamos las funciones que ya existen en el paquete.</p>
+<div id="instalando-los-paquetes" class="section level3">
+<h3>Instalando los paquetes:</h3>
+<p>Como ejemplo, utilizaremos el paquete <em>Purrr</em> de la serie <a href="https://www.tidyverse.org/">Tidyverse</a>. Instalar un paquete es muy sencillo, solo hacemos uso de la función <code>install.packages('Purrr')</code>, y acto seguido seleccionaremos el mirror de la <a href="https://cran.r-project.org/">CRAN</a><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> que deseemos. Fíjate que el arcumento de la función es una cadena de caracteres, por eso <code>'Purrr'</code> lleva comillas simples o dobles. Esto es importante, pues es un error muy frecuente ingresar lo siguiente:</p>
+<pre class="r"><code>install.packages(Purrr)
+## Error in install.packages(Purrr): object &#39;Purrr&#39; not found</code></pre>
+<p>Que hace referencia al <em>objeto</em> Purrr (que no existe) y no al paquete como tal. De nada, por las horas que posiblemente te ahorramos 😜.</p>
+</div>
+<div id="cargando-los-paquetes" class="section level3">
+<h3>Cargando los paquetes:</h3>
+<p>La manera mas común de cargar los paquetes es utilizando la función <code>library()</code>, seguida del paquete, esta vez, sin comillas porque al estar instalado el paquete, ahora si será un objeto al que podemos acceder. Esta función carga <strong>todas</strong> las funciones del paquete al ambiente de trabajo. De esta manera:</p>
+<pre class="r"><code>library(purrr)</code></pre>
+<p>Esta manera es la correcta, en el caso de que utilicemos muchas funciones del paquete, y necesitemos acceder de manera rápida a estas con tan solo escribirlas. Sin embargo, al momento de trabajar en un proyecto que requiera un código mas riguroso, de scripts que necesiten de una alta reproducibilidad y constante mantenimiento, las buenas prácticas se inclinan por utilizar específicamente las funciones de los paquetes con la notación <code>paquete::funcion()</code>.</p>
+<p>Así que por ejemplo, podemos utilizar la función <code>map_df()</code> del paquete <em>Purrr</em> <code>purrr::map2_df()</code> seguido del argumento de la función en cuestión.</p>
+</div>
+</div>
+<div id="conclusiones" class="section level1">
+<h1>Conclusiones:</h1>
+<ol style="list-style-type: decimal">
+<li>Instalamos los paquetes con <code>install.packages('paquete')</code>.</li>
+<li>Cargamos todas las funciones del paquete con <code>library(paquete)</code></li>
+<li>Utilizamos una unica funcion del paquete sin necesidad de cargarlas todas con <code>paquete::funcion()</code>.</li>
+</ol>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>La CRAN, Comprehensive Archive Network, por sus siglas en inglés, no es mas que una red de repositorios en los que son almacenados los archivos binarios tanto del lenguaje R, como de la inmensa mayoría de paquetes de R.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+</ol>
+</div>

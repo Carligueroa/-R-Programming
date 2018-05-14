@@ -1,0 +1,52 @@
+---
+title: "Paquetes en R"
+author: "Carlos Figueroa"
+date: '2018-05-13'
+slug: paquetes-en-r
+tags:
+- RStudio
+- Paquetes
+categories: R
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+```
+
+# Introducción
+En el siguiente tutorial aprenderemos sobre como instalar los paquetes en R y la manera correcta de cargarlos al ambiente de trabajo. 
+
+Un paquete (o también llamado librería) son un conjunto de funciones desarrolladas previamente por otras personas. R se ha vuelto un lenguaje de programación popular porque ofrece una amplia gama de paquetes libres respaldados por una comunidad que siempre se encuentra en constante desarrollo de nuevos paquetes y mejorando los que ya existen, así como también ofrece la posibilidad a cualquier usuario de crear nuevos paquetes.
+2
+Un paquete en resumen, nos hace la vida más fácil, pues hace que nuestro código sea mucho más eficiente, legible, y se reduce considerablemente el tiempo en el que lo desarrollamos, porque en lugar de escribir nuevas funciones, utilizamos las funciones que ya existen en el paquete.
+
+### Instalando los paquetes:
+Como ejemplo, utilizaremos el paquete *Purrr* de la serie [Tidyverse](<https://www.tidyverse.org/>). Instalar un paquete es muy sencillo, solo hacemos uso de la función `install.packages('Purrr')`, y acto seguido seleccionaremos el mirror de la [CRAN](https://cran.r-project.org/)[^1] que deseemos. Fíjate que el arcumento de la función es una cadena de caracteres, por eso `'Purrr'` lleva comillas simples o dobles. Esto es importante, pues es un error muy frecuente ingresar lo siguiente:
+
+```{r error object, error=TRUE}
+install.packages(Purrr)
+```
+
+Que hace referencia al *objeto* Purrr (que no existe) y no al paquete como tal. De nada, por las horas que posiblemente te ahorramos 😜.
+
+
+### Cargando los paquetes:
+La manera mas común de cargar los paquetes es utilizando la función `library()`, seguida del paquete, esta vez, sin comillas porque al estar instalado el paquete, ahora si será un objeto al que podemos acceder. Esta función carga **todas** las funciones del paquete al ambiente de trabajo. De esta manera:
+
+```{r installing}
+library(purrr)
+```
+
+Esta manera es la correcta, en el caso de que utilicemos muchas funciones del paquete, y necesitemos acceder de manera rápida a estas con tan solo escribirlas. Sin embargo, al momento de trabajar en un proyecto que requiera un código mas riguroso, de scripts que necesiten de una alta reproducibilidad y constante mantenimiento, las buenas prácticas se inclinan por utilizar específicamente las funciones de los paquetes con la notación `paquete::funcion()`.
+
+Así que por ejemplo, podemos utilizar la función `map_df()` del paquete *Purrr* `purrr::map2_df()` seguido del argumento de la función en cuestión.
+
+
+# Conclusiones:
+
+1. Instalamos los paquetes con `install.packages('paquete')`.
+2. Cargamos todas las funciones del paquete con `library(paquete)`
+3. Utilizamos una unica funcion del paquete sin necesidad de cargarlas todas con `paquete::funcion()`.
+
+
+[^1]: La CRAN, Comprehensive Archive Network, por sus siglas en inglés, no es mas que una red de repositorios en los que son almacenados los archivos binarios tanto del lenguaje R, como de la inmensa mayoría de paquetes de R.
