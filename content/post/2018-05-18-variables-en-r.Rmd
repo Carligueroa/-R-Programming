@@ -1,0 +1,82 @@
+---
+title: Variables en R
+author: Carlos Figueroa
+date: '2018-05-18'
+slug: variables-en-r
+categories:
+  - R
+tags:
+  - RStudio
+  - Variables
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+```
+
+# Introducción
+Las variables en la estadística no son más que características medidas sobre unidades o individuos. En programación las variables no son tan diferentes, pues son espacios del sistema de almacenamiento (Disco duro, memoria RAM, etc.) en los cuales se aloja un valor -característica- y se asocia a un símbolo.
+
+En R, como en cualquier lenguaje de programación, la declaración, consulta y gestión de variables debe realizarse bajo ciertas reglas sintánticas a las que nos referiremos a continuación.
+
+
+## Declarando variables:
+Primero, las variables pueden declararse con los tres siguientes símbolos: `<-`, `=` o `->`. De cualquiera de las siguientes maneras asignaremos el valor 350 a la variable `edad`:
+```{r declaration}
+monthly_income <- 350
+350 -> monthly_income
+monthly_income = 350
+
+```
+A pesar de que las 3 maneras son igual de válidas, realmente es recomendable utilizar `<-` y será la que utilizaremos de ahora en adelante.
+
+Además de esto, es posible asignar una variable en función de otra. Por ejemplo:
+```{r declaration2}
+anual_income <- monthly_income * 12
+```
+
+
+
+## Reglas en la declaración de variables:
+Son diferentes las reglas que deben cumplirse al declarar variables en R, pero en general, las tres más importantes con respecto a los nombres de las variables son:
+
+1. Sólo se permite usar letras, puntos, dígitos y guiones bajos. De lo contrario obtendrán un mensaje como este:
+```{r error invalid char, error=TRUE}
+$% <- 50
+```
+
+
+2. Los nombres nunca deben iniciar con un número. De lo contrario:
+```{r error number-name, error=TRUE}
+1ero <- 120
+```
+
+3. No pueden utilizarse palabras reservadas. Como en todos los lenguajes de programación, existen palabras reservadas a las que se les pueden asignar valores arbitrarios. Las palabras resevadas en R son:
+
+![Palabras reservadas](/post/2018-05-18-variables-en-r_files/Screen Shot 2018-05-20 at 6.49.34 PM.png){width=100% height=100%}
+
+
+
+
+# Apéndice:
+## Buenas prácticas en la declaración de variables:
+Así como hay reglas que si no se siguen, arrojarán errores de sintaxis en R, también hay reglas que no están escritas que a pesar de que no generarán errores, es recomendable seguirlas con especial rigor porque tarde o temprano resultarán en un problema al momento de realizar análisis complejos en R o al momento de desarrollar proyectos extensos. Estas buenas prácticas no sólo son válidas para R, sino cualquier lenguaje de programación con el cual se vaya a realizar cualquier tipo de análisis estadístico.
+
+- **No utilizar acentos en las palabras:** Por favor, **¡NO!** los usen. Además de ser molesto tener que pulsar una tecla de más para poder referirnos a la variable, puede traer problemas en la codificación de los archivos[^1], generando problemas de compatibilidad, por ejemplo, si en el proyecto trabajan usuarios de diferentes sistemas operativos a la vez.
+
+- **Utilizar minúsculas:** No solo tus meñiques te agradecerán no presionar tanto la tecla Shift, sino que ayuda a que las variables sean más estándar y el código es más legible. Además de que como R es un lenguaje case sensitive (o sensible a las mayúsculas), declarar la variable `income` será diferente de la variable `Income`.
+
+- **No utilizar espacios:** A pesar de que es posible declarar las variables con espacios al utilizar las comillas simples:``` `` ```,por ejemplo, de la siguiente manera.
+```{r variable with spaces}
+`anual income` <- 1000
+```
+Esto es una muy **mala praáctica**. Es mucho mejor si la declaramos con guines bajos de la siguiente manera:
+```{r r variable}
+anual_income <- 1000
+
+```
+
+- **Declarar variables en inglés:** Las funciones de R, como la de los paquetes tienen nombres que buscan ser similares a la palabra en inglés que describa la acción que realizan. Parece poco relevante pero al programar, pasamos mucho más tiempo leyendo el código que escribiéndolo, y puede resultar mas sencillo para nuestro cerebro procesar toda la información en un solo idioma. Además de que sin duda alguna es una buena manera de preacticar y mejorar nuestro inglés.
+
+
+[^1]: RStudio ofrece una utilidad para abrir scripts con diferentes codificaciones de caracteres. Si te sucede que al abrir un script este muestre caracteres extraños en lugar de acentos o ñ, sea necesario que abras el archivo con las instrucciones de este [enlace](<https://support.rstudio.com/hc/en-us/articles/200532197-Character-Encoding>)

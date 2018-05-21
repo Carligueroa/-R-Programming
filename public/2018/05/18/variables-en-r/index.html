@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.40.3" />
+
+
+<title>Variables en R - A Hugo website</title>
+<meta property="og:title" content="Variables en R - A Hugo website">
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.11.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/rstudio/blogdown">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/rstudio">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">4 min read</span>
+    
+
+    <h1 class="article-title">Variables en R</h1>
+
+    
+    <span class="article-date">2018/05/18</span>
+    
+
+    <div class="article-content">
+      <div id="introduccion" class="section level1">
+<h1>Introducción</h1>
+<p>Las variables en la estadística no son más que características medidas sobre unidades o individuos. En programación las variables no son tan diferentes, pues son espacios del sistema de almacenamiento (Disco duro, memoria RAM, etc.) en los cuales se aloja un valor -característica- y se asocia a un símbolo.</p>
+<p>En R, como en cualquier lenguaje de programación, la declaración, consulta y gestión de variables debe realizarse bajo ciertas reglas sintánticas a las que nos referiremos a continuación.</p>
+<div id="declarando-variables" class="section level2">
+<h2>Declarando variables:</h2>
+<p>Primero, las variables pueden declararse con los tres siguientes símbolos: <code>&lt;-</code>, <code>=</code> o <code>-&gt;</code>. De cualquiera de las siguientes maneras asignaremos el valor 350 a la variable <code>edad</code>:</p>
+<pre class="r"><code>monthly_income &lt;- 350
+350 -&gt; monthly_income
+monthly_income = 350</code></pre>
+<p>A pesar de que las 3 maneras son igual de válidas, realmente es recomendable utilizar <code>&lt;-</code> y será la que utilizaremos de ahora en adelante.</p>
+<p>Además de esto, es posible asignar una variable en función de otra. Por ejemplo:</p>
+<pre class="r"><code>anual_income &lt;- monthly_income * 12</code></pre>
+</div>
+<div id="reglas-en-la-declaracion-de-variables" class="section level2">
+<h2>Reglas en la declaración de variables:</h2>
+<p>Son diferentes las reglas que deben cumplirse al declarar variables en R, pero en general, las tres más importantes con respecto a los nombres de las variables son:</p>
+<ol style="list-style-type: decimal">
+<li>Sólo se permite usar letras, puntos, dígitos y guiones bajos. De lo contrario obtendrán un mensaje como este:</li>
+</ol>
+<pre class="r"><code>$% &lt;- 50
+## Error: &lt;text&gt;:1:1: unexpected &#39;$&#39;
+## 1: $
+##     ^</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Los nombres nunca deben iniciar con un número. De lo contrario:</li>
+</ol>
+<pre class="r"><code>1ero &lt;- 120
+## Error: &lt;text&gt;:1:1: unexpected input
+## 1: 1er
+##     ^</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>No pueden utilizarse palabras reservadas. Como en todos los lenguajes de programación, existen palabras reservadas a las que se les pueden asignar valores arbitrarios. Las palabras resevadas en R son:</li>
+</ol>
+<div class="figure">
+<img src="/post/2018-05-18-variables-en-r_files/Screen%20Shot%202018-05-20%20at%206.49.34%20PM.png" alt="Palabras reservadas" style="width:100.0%;height:100.0%" />
+<p class="caption">Palabras reservadas</p>
+</div>
+</div>
+</div>
+<div id="apendice" class="section level1">
+<h1>Apéndice:</h1>
+<div id="buenas-practicas-en-la-declaracion-de-variables" class="section level2">
+<h2>Buenas prácticas en la declaración de variables:</h2>
+<p>Así como hay reglas que si no se siguen, arrojarán errores de sintaxis en R, también hay reglas que no están escritas que a pesar de que no generarán errores, es recomendable seguirlas con especial rigor porque tarde o temprano resultarán en un problema al momento de realizar análisis complejos en R o al momento de desarrollar proyectos extensos. Estas buenas prácticas no sólo son válidas para R, sino cualquier lenguaje de programación con el cual se vaya a realizar cualquier tipo de análisis estadístico.</p>
+<ul>
+<li><p><strong>No utilizar acentos en las palabras:</strong> Por favor, <strong>¡NO!</strong> los usen. Además de ser molesto tener que pulsar una tecla de más para poder referirnos a la variable, puede traer problemas en la codificación de los archivos<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, generando problemas de compatibilidad, por ejemplo, si en el proyecto trabajan usuarios de diferentes sistemas operativos a la vez.</p></li>
+<li><p><strong>Utilizar minúsculas:</strong> No solo tus meñiques te agradecerán no presionar tanto la tecla Shift, sino que ayuda a que las variables sean más estándar y el código es más legible. Además de que como R es un lenguaje case sensitive (o sensible a las mayúsculas), declarar la variable <code>income</code> será diferente de la variable <code>Income</code>.</p></li>
+<li><p><strong>No utilizar espacios:</strong> A pesar de que es posible declarar las variables con espacios al utilizar las comillas simples:<code>``</code>,por ejemplo, de la siguiente manera.</p></li>
+</ul>
+<pre class="r"><code>`anual income` &lt;- 1000</code></pre>
+<p>Esto es una muy <strong>mala praáctica</strong>. Es mucho mejor si la declaramos con guines bajos de la siguiente manera:</p>
+<pre class="r"><code>anual_income &lt;- 1000</code></pre>
+<ul>
+<li><strong>Declarar variables en inglés:</strong> Las funciones de R, como la de los paquetes tienen nombres que buscan ser similares a la palabra en inglés que describa la acción que realizan. Parece poco relevante pero al programar, pasamos mucho más tiempo leyendo el código que escribiéndolo, y puede resultar mas sencillo para nuestro cerebro procesar toda la información en un solo idioma. Además de que sin duda alguna es una buena manera de preacticar y mejorar nuestro inglés.</li>
+</ul>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>RStudio ofrece una utilidad para abrir scripts con diferentes codificaciones de caracteres. Si te sucede que al abrir un script este muestre caracteres extraños en lugar de acentos o ñ, sea necesario que abras el archivo con las instrucciones de este <a href="https://support.rstudio.com/hc/en-us/articles/200532197-Character-Encoding">enlace</a><a href="#fnref1" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="/js/math-code.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+

@@ -6,10 +6,20 @@
     <description>Recent content in Rstudio on A Hugo website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 13 May 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 18 May 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/rstudio/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Variables en R</title>
+      <link>/2018/05/18/variables-en-r/</link>
+      <pubDate>Fri, 18 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/05/18/variables-en-r/</guid>
+      <description>Introducción Las variables en la estadística no son más que características medidas sobre unidades o individuos. En programación las variables no son tan diferentes, pues son espacios del sistema de almacenamiento (Disco duro, memoria RAM, etc.) en los cuales se aloja un valor -característica- y se asocia a un símbolo.
+En R, como en cualquier lenguaje de programación, la declaración, consulta y gestión de variables debe realizarse bajo ciertas reglas sintánticas a las que nos referiremos a continuación.</description>
+    </item>
     
     <item>
       <title>Paquetes en R</title>
