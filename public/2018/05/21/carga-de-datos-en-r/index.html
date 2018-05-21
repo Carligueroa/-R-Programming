@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.40.3" />
+
+
+<title>Carga de datos en R - A Hugo website</title>
+<meta property="og:title" content="Carga de datos en R - A Hugo website">
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.11.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/rstudio/blogdown">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/rstudio">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">8 min read</span>
+    
+
+    <h1 class="article-title">Carga de datos en R</h1>
+
+    
+    <span class="article-date">2018/05/21</span>
+    
+
+    <div class="article-content">
+      <p>Como bien sabrán (o imaginarán), gracias al esfuerzo en conjunto de muchas personas R puede leer datos de casi cualquier lugar, conexiones a bases de datos, APIs, archivos de texto, incluso extraer contenido de paginas web y de archivos menos convencionales, como mp3 y pdf.</p>
+<p>Si están aprendiendo R o ya aprendieron (y por alguna razón nos leen), lo más probable es que la motivación que tuvieron para empezar tenía la siguiente forma:</p>
+<pre class="r"><code># Tabla ejemplo, su motivación puede verse ligera o totalmente diferente.
+head(iris)</code></pre>
+<pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa</code></pre>
+<p>Ahora la pregunta es: ¿Cómo hago para cargar mis datos a R para poder aplicarle todos los métodos estadísticos que con tanto esfuerzo he aprendido?</p>
+<p>Bueno, esa pregunta te la responderé con otra pregunta: ¿En qué formato están los datos que quieres cargar?</p>
+<p>Como mencioné en el primer párrafo, R puede leer datos de casi cualquier tipo de archivo, por lo que en este post solo enseñaremos los formatos más básicos (ergo, más comunes) que se encontraran:</p>
+<ul>
+<li>.csv</li>
+<li>.xlsx / .xls</li>
+</ul>
+<div id="csv" class="section level1">
+<h1>CSV</h1>
+<p>Antes de mostrarles como se cargan estos archivos, es importante saber que es un archivo <em>csv</em>. “CSV” significa “valores separados por comas” (<em>comma separated values</em>) y es un archivo de texto plano, esto quiere decir que si abren el archivo con un editor de texto como el block de notas, verán algo como:</p>
+<div class="figure">
+<img src="/post/2018-05-21-carga-de-datos-en-r_files/Screenshot%20from%202018-05-21%2012-17-04.png" alt="Contenido del csv" />
+<p class="caption">Contenido del csv</p>
+</div>
+<p>Ahí se puede observar que todos los datos están separados por comas (“,”), la primera linea son los nombres de las variables y las lineas siguientes son los datos.</p>
+<p>Existen varias funciones en distintos paquetes para leer archivos .csv, aquí mostraremos algunas</p>
+<div id="r-base" class="section level2">
+<h2>R base</h2>
+<p>En “R base”, como se le conoce a las funciones que vienen incluidas en R por defecto, hay varias funciones para leer archivos de texto, entre las cuales se ecuentran:</p>
+<ul>
+<li><code>read.csv</code></li>
+<li><code>read.csv2</code></li>
+<li><code>read.tsv</code></li>
+<li><code>read.table</code></li>
+</ul>
+<p>Cada una de estas funciones tiene un uso específico, sin embargo todas son <em>wrappers</em><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> de <code>read.table</code>, la función más general entre ellas.</p>
+<p>Para leer los datos utilizaremos primero <code>read.csv</code>:</p>
+<pre class="r"><code># Recuerden asignar el valor a una variable
+
+datos_1 &lt;- read.csv(&quot;data/iris.csv&quot;)
+head(datos_1)</code></pre>
+<pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa</code></pre>
+<p>Ahora utilizando <code>read.table</code>:</p>
+<pre class="r"><code>datos_2 &lt;-
+  read.table(&quot;data/iris.csv&quot;,
+             sep = &quot;,&quot;,
+             dec = &quot;.&quot;,
+             header = TRUE)
+head(datos_2)</code></pre>
+<pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa</code></pre>
+<p>Como podemos ver los datos se cargaron igualmente, solo que con <code>read.csv</code> tuvimos que escribir menos.</p>
+<p><strong>IMPORTANTE</strong>: <code>read.csv2</code> se utiliza cuando el archivo .csv tiene los datos separados con “;” y los decimales con “,” en lugar de “,” y “.” respectivamente. <code>read.tsv</code> se utiliza con archivos .tsv, archivos de texto cuyos datos estan separados por tabulaciones. Hay que tener en cuenta estas diferencias, ya que en algunos casos podemos encontrarnos con archivos .csv que tengan como separador tabuladores, o viceversa, y recordar que tenemos otras funciones para estos casos disminuye mucho la frustración a la hora de encontrarnos con errores misteriosos de este tipo.</p>
+</div>
+<div id="readr" class="section level2">
+<h2>readr</h2>
+<p>El paquete <code>readr</code> trae varias funciones especialmente diseñadas para la carga de datos, estas funciones tienen distintas ventajas sobre las de R base, una de ellas es que las variables textuales las carga como variables <code>string</code> y no como <code>factor</code>, lo que permite trabajar mas fácilmente con ellas.</p>
+<p>Cargando los datos utilizando <code>readr::read_csv</code>:</p>
+<pre class="r"><code>library(readr)
+
+datos_3 &lt;- read_csv(&quot;data/iris.csv&quot;)
+
+datos_3</code></pre>
+<pre><code>## # A tibble: 150 x 5
+##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+##           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
+##  1         5.10        3.50         1.40       0.200 setosa 
+##  2         4.90        3.00         1.40       0.200 setosa 
+##  3         4.70        3.20         1.30       0.200 setosa 
+##  4         4.60        3.10         1.50       0.200 setosa 
+##  5         5.00        3.60         1.40       0.200 setosa 
+##  6         5.40        3.90         1.70       0.400 setosa 
+##  7         4.60        3.40         1.40       0.300 setosa 
+##  8         5.00        3.40         1.50       0.200 setosa 
+##  9         4.40        2.90         1.40       0.200 setosa 
+## 10         4.90        3.10         1.50       0.100 setosa 
+## # ... with 140 more rows</code></pre>
+<p>Aquí podemos ver que la salida es diferente, esto porque <code>read_csv</code> no arroja una <code>data.frame</code> normal como las funciones en R base, sino un objeto de clase <code>tbl_df</code>, una <code>data.frame</code> mejorada.</p>
+</div>
+<div id="data.table" class="section level2">
+<h2>data.table</h2>
+<p>El paquete <code>data.table</code> tiene una función llamada <code>fread</code> para leer los archivos de texto,la principal ventaja de esta función es su velocidad a la hora de leer archivos muy grandes (más de 1gb), reduciendo considerablemente el tiempo de espera en estos casos.</p>
+<pre class="r"><code>library(data.table)
+
+datos_4 &lt;- fread(&quot;data/iris.csv&quot;)
+
+datos_4</code></pre>
+<pre><code>##      Sepal.Length Sepal.Width Petal.Length Petal.Width   Species
+##   1:          5.1         3.5          1.4         0.2    setosa
+##   2:          4.9         3.0          1.4         0.2    setosa
+##   3:          4.7         3.2          1.3         0.2    setosa
+##   4:          4.6         3.1          1.5         0.2    setosa
+##   5:          5.0         3.6          1.4         0.2    setosa
+##  ---                                                            
+## 146:          6.7         3.0          5.2         2.3 virginica
+## 147:          6.3         2.5          5.0         1.9 virginica
+## 148:          6.5         3.0          5.2         2.0 virginica
+## 149:          6.2         3.4          5.4         2.3 virginica
+## 150:          5.9         3.0          5.1         1.8 virginica</code></pre>
+<p>Aquí vemos que la salida es diferente tambien, esto porque <code>fread</code> arroja un objeto de clase <code>data.table</code>, una <code>data.frame</code> mejorada pero distinta a <code>tbl_df</code>.</p>
+</div>
+</div>
+<div id="excel" class="section level1">
+<h1>Excel</h1>
+<p>Sin duda toda persona que haya tenido que trabajar alguna vez con datos conoce MS Excel (o LibreOffice, si eres un aficionado del FOSS<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>), el que lo conoce sabe muy bien sus limitaciones y su dominio casi total del almacenamiento y distribución de los datos, haciendo el formato .xlsx (o con un poco menos de suerte, .xls) el formato <em>de facto</em> en el que veremos los datos, sobre todo en el caso de los hispanohablantes, por lo que tiene sentido aprender a cargar datos de Excel a R.</p>
+<p>Para llevar a cabo esta tarea tenemos un paquete llamado <code>readxl</code>, el cual está diseñado para la carga de archivos .xlsx, tarea que realiza muy eficientemente.</p>
+<p>Este paquete tiene 3 funciones principales para leer estos archivos:</p>
+<ul>
+<li><code>read_xls</code></li>
+<li><code>read_xlsx</code></li>
+<li><code>read_excel</code></li>
+</ul>
+<p>La diferencia entre las dos primeras y <code>read_excel</code> es que esta última puede leer archivos con cualquier extensión, mientras que las dos primeras solo leen archivos con la extensión correspondiente a su nombre.</p>
+<p>Cargando los datos con <code>read_excel</code>:</p>
+<pre class="r"><code>library(readxl)
+
+datos_5 &lt;- read_excel(&quot;data/iris.xlsx&quot;, sheet = 1)
+
+datos_5</code></pre>
+<pre><code>## # A tibble: 150 x 5
+##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+##           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
+##  1         5.10        3.50         1.40       0.200 setosa 
+##  2         4.90        3.00         1.40       0.200 setosa 
+##  3         4.70        3.20         1.30       0.200 setosa 
+##  4         4.60        3.10         1.50       0.200 setosa 
+##  5         5.00        3.60         1.40       0.200 setosa 
+##  6         5.40        3.90         1.70       0.400 setosa 
+##  7         4.60        3.40         1.40       0.300 setosa 
+##  8         5.00        3.40         1.50       0.200 setosa 
+##  9         4.40        2.90         1.40       0.200 setosa 
+## 10         4.90        3.10         1.50       0.100 setosa 
+## # ... with 140 more rows</code></pre>
+<p>Estas funciones tienen dos argumentos muy importantes, los cuales son <code>sheet</code> y <code>range</code>, el primero tomando como valor un número, el cual indica en que hoja del archivo excel se encuentran los datos que queremos cargar, y el segundo indicando en que rango de celdas se encuentran dichos datos.</p>
+<p><code>range</code> es un argumento opcional, tomando por defecto la celda “A1” y leyendo datos hasta que no encuentra más celdas con contenido hacia la derecha o hacia abajo, esto hay que tenerlo en cuenta, ya que como bien sabemos estos archivos suelen juntar datos con estadísticas y resúmenes, llenando celdas de información que no queremos cargar, por lo que sería mejor especificar en el rango de celdas que se encuentran los datos que necesitamos.</p>
+</div>
+<div id="guardar-los-datos-de-nuevo" class="section level1">
+<h1>Guardar los datos de nuevo</h1>
+<p>Luego de haber leido los datos seguramente tendrán que limpiarlos, reemplazar datos faltantes, transformar algunas variables y luego de unos cuantos pasos tendran unos datos diferentes a los originales, para no tener que relalizar estos pasos cada vez que carguemos los datos podemos exportarlos de nuevo, luego de las transformaciones, a un archivo de texto.</p>
+<p>Todas las funciones que hemos mencionado en este post tienen una contraparte que permite exportar los datos, todas ellas tienen como primer argumento los datos que queremos guardar y como segundo argumento el archivo en el que lo guardaremos.</p>
+<p>Por ejemplo, el siguiente codigo guarda el contenido de <code>datos_3</code> en un archivo llamado “datos_3.csv” en la carpeta “data”:</p>
+<pre class="r"><code>write_csv(datos_3, &quot;data/datos_3.csv&quot;)</code></pre>
+<p>Las equivalencias son las siguientes:</p>
+<pre><code>## # A tibble: 5 x 2
+##   Importar   Exportar   
+##   &lt;chr&gt;      &lt;chr&gt;      
+## 1 read.csv   write.csv  
+## 2 read.csv2  write.csv2 
+## 3 read.table write_table
+## 4 read_csv   write_csv  
+## 5 fread      fwrite</code></pre>
+<p>Esperamos que esta información les sea de mucha utilidad, y recuerden que el primer paso para ser bueno en algo es ser malo en eso mismo, los errores al inicio son más comunes de lo que uno quisiera, pero no se desanimen que los frutos se ven más rapido de lo que uno espera.</p>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Un <em>wrapper</em> es una función que se encarga de llamar a otra función con unos parámetros determinados. Por ejemplo: <code>read.csv</code> llama a <code>read.table</code> con los parámetros <code>sep = &quot;,&quot;</code>, <code>dec = &quot;.&quot;</code> y <code>header = TRUE</code>.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p><em>Free and Open Source Software</em>: programas gratis y de código abierto cuya mision es permitirle a todas las personas el libre acceso al software.<a href="#fnref2" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+
+    
+  </body>
+</html>
+

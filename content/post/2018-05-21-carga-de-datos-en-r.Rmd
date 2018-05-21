@@ -1,0 +1,160 @@
+---
+title: Carga de datos en R
+author: Jesus Perez
+date: '2018-05-21'
+slug: carga-de-datos-en-r
+categories: ["R"]
+tags: ["RStudio", "Datos"]
+---
+
+Como bien sabrán (o imaginarán), gracias al esfuerzo en conjunto de muchas personas R puede leer datos de casi cualquier lugar, conexiones a bases de datos, APIs, archivos de texto, incluso extraer contenido de paginas web y de archivos menos convencionales, como mp3 y pdf.
+
+Si están aprendiendo R o ya aprendieron (y por alguna razón nos leen), lo más probable es que la motivación que tuvieron para empezar tenía la siguiente forma:
+
+```{r data.frame ejemplo}
+# Tabla ejemplo, su motivación puede verse ligera o totalmente diferente.
+head(iris)
+```
+
+Ahora la pregunta es: ¿Cómo hago para cargar mis datos a R para poder aplicarle todos los métodos estadísticos que con tanto esfuerzo he aprendido?
+
+Bueno, esa pregunta te la responderé con otra pregunta: ¿En qué formato están los datos que quieres cargar?
+
+Como mencioné en el primer párrafo, R puede leer datos de casi cualquier tipo de archivo, por lo que en este post solo enseñaremos los formatos más básicos (ergo, más comunes) que se encontraran: 
+
+* .csv
+* .xlsx / .xls
+
+# CSV
+
+Antes de mostrarles como se cargan estos archivos, es importante saber que es un archivo *csv*. "CSV" significa "valores separados por comas" (*comma separated values*) y es un archivo de texto plano, esto quiere decir que si abren el archivo con un editor de texto como el block de notas, verán algo como:
+
+![Contenido del csv](/post/2018-05-21-carga-de-datos-en-r_files/Screenshot from 2018-05-21 12-17-04.png)
+
+Ahí se puede observar que todos los datos están separados por comas (","), la primera linea son los nombres de las variables y las lineas siguientes son los datos.
+
+Existen varias funciones en distintos paquetes para leer archivos .csv, aquí mostraremos algunas
+
+## R base
+
+En "R base", como se le conoce a las funciones que vienen incluidas en R por defecto, hay varias funciones para leer archivos de texto, entre las cuales se ecuentran:
+
+* `read.csv`
+* `read.csv2`
+* `read.tsv`
+* `read.table`
+
+Cada una de estas funciones tiene un uso específico, sin embargo todas son *wrappers*[^1] de `read.table`, la función más general entre ellas.
+
+[^1]: Un *wrapper* es una función que se encarga de llamar a otra función con unos parámetros determinados. Por ejemplo: `read.csv` llama a `read.table` con los parámetros `sep = ","`, `dec = "."` y `header = TRUE`.
+
+Para leer los datos utilizaremos primero `read.csv`:
+
+```{r}
+# Recuerden asignar el valor a una variable
+
+datos_1 <- read.csv("data/iris.csv")
+head(datos_1)
+```
+
+Ahora utilizando `read.table`:
+
+```{r}
+datos_2 <-
+  read.table("data/iris.csv",
+             sep = ",",
+             dec = ".",
+             header = TRUE)
+head(datos_2)
+```
+
+Como podemos ver los datos se cargaron igualmente, solo que con `read.csv` tuvimos que escribir menos.
+
+**IMPORTANTE**: `read.csv2` se utiliza cuando el archivo .csv tiene los datos separados con ";" y los decimales con "," en lugar de "," y "." respectivamente. `read.tsv` se utiliza con archivos .tsv, archivos de texto cuyos datos estan separados por tabulaciones. Hay que tener en cuenta estas diferencias, ya que en algunos casos podemos encontrarnos con archivos .csv que tengan como separador tabuladores, o viceversa, y recordar que tenemos otras funciones para estos casos disminuye mucho la frustración a la hora de encontrarnos con errores misteriosos de este tipo.
+
+## readr
+
+El paquete `readr` trae varias funciones especialmente diseñadas para la carga de datos, estas funciones tienen distintas ventajas sobre las de R base, una de ellas es que las variables textuales las carga como variables `string` y no como `factor`, lo que permite trabajar mas fácilmente con ellas.
+
+Cargando los datos utilizando `readr::read_csv`:
+
+```{r, message=FALSE}
+library(readr)
+
+datos_3 <- read_csv("data/iris.csv")
+
+datos_3
+```
+
+Aquí podemos ver que la salida es diferente, esto porque `read_csv` no arroja una `data.frame` normal como las funciones en R base, sino un objeto de clase `tbl_df`, una `data.frame` mejorada.
+
+## data.table
+
+El paquete `data.table` tiene una función llamada `fread` para leer los archivos de texto,la principal ventaja de esta función es su velocidad a la hora de leer archivos muy grandes (más de 1gb), reduciendo considerablemente el tiempo de espera en estos casos.
+
+```{r, message=FALSE}
+library(data.table)
+
+datos_4 <- fread("data/iris.csv")
+
+datos_4
+```
+
+Aquí vemos que la salida es diferente tambien, esto porque `fread` arroja un objeto de clase `data.table`, una `data.frame` mejorada pero distinta a `tbl_df`.
+
+# Excel
+
+Sin duda toda persona que haya tenido que trabajar alguna vez con datos conoce MS Excel (o LibreOffice, si eres un aficionado del FOSS[^2]), el que lo conoce sabe muy bien sus limitaciones y su dominio casi total del almacenamiento y distribución de los datos, haciendo el formato .xlsx (o con un poco menos de suerte, .xls) el formato *de facto* en el que veremos los datos, sobre todo en el caso de los hispanohablantes, por lo que tiene sentido aprender a cargar datos de Excel a R.
+
+[^2]: *Free and Open Source Software*: programas gratis y de código abierto cuya mision es permitirle a todas las personas el libre acceso al software.
+
+Para llevar a cabo esta tarea tenemos un paquete llamado `readxl`, el cual está diseñado para la carga de archivos .xlsx, tarea que realiza muy eficientemente.
+
+Este paquete tiene 3 funciones principales para leer estos archivos:
+
+* `read_xls`
+* `read_xlsx`
+* `read_excel`
+
+La diferencia entre las dos primeras y `read_excel` es que esta última puede leer archivos con cualquier extensión, mientras que las dos primeras solo leen archivos con la extensión correspondiente a su nombre.
+
+Cargando los datos con `read_excel`:
+
+```{r}
+library(readxl)
+
+datos_5 <- read_excel("data/iris.xlsx", sheet = 1)
+
+datos_5
+```
+
+Estas funciones tienen dos argumentos muy importantes, los cuales son `sheet` y `range`, el primero tomando como valor un número, el cual indica en que hoja del archivo excel se encuentran los datos que queremos cargar, y el segundo indicando en que rango de celdas se encuentran dichos datos.
+
+`range` es un argumento opcional, tomando por defecto la celda "A1" y leyendo datos hasta que no encuentra más celdas con contenido hacia la derecha o hacia abajo, esto hay que tenerlo en cuenta, ya que como bien sabemos estos archivos suelen juntar datos con estadísticas y resúmenes, llenando celdas de información que no queremos cargar, por lo que sería mejor especificar en el rango de celdas que se encuentran los datos que necesitamos.
+
+# Guardar los datos de nuevo
+
+Luego de haber leido los datos seguramente tendrán que limpiarlos, reemplazar datos faltantes, transformar algunas variables y luego de unos cuantos pasos tendran unos datos diferentes a los originales, para no tener que relalizar estos pasos cada vez que carguemos los datos podemos exportarlos de nuevo, luego de las transformaciones, a un archivo de texto.
+
+Todas las funciones que hemos mencionado en este post tienen una contraparte que permite exportar los datos, todas ellas tienen como primer argumento los datos que queremos guardar y como segundo argumento el archivo en el que lo guardaremos.
+
+Por ejemplo, el siguiente codigo guarda el contenido de `datos_3` en un archivo llamado "datos_3.csv" en la carpeta "data":
+
+```{r, eval=FALSE}
+write_csv(datos_3, "data/datos_3.csv")
+```
+
+Las equivalencias son las siguientes:
+
+```{r, echo=FALSE}
+dplyr::tribble(
+  ~Importar,    ~Exportar,
+  "read.csv",   "write.csv",
+  "read.csv2",  "write.csv2",
+  "read.table", "write_table",
+  "read_csv",   "write_csv",
+  "fread",      "fwrite"
+)
+```
+
+Esperamos que esta información les sea de mucha utilidad, y recuerden que el primer paso para ser bueno en algo es ser malo en eso mismo, los errores al inicio son más comunes de lo que uno quisiera, pero no se desanimen que los frutos se ven más rapido de lo que uno espera.
