@@ -6,10 +6,20 @@
     <description>Recent content in Rstudio on A Hugo website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 18 May 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 21 May 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/rstudio/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Carga de datos en R</title>
+      <link>/2018/05/21/carga-de-datos-en-r/</link>
+      <pubDate>Mon, 21 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/05/21/carga-de-datos-en-r/</guid>
+      <description>Como bien sabrán (o imaginarán), gracias al esfuerzo en conjunto de muchas personas R puede leer datos de casi cualquier lugar, conexiones a bases de datos, APIs, archivos de texto, incluso extraer contenido de paginas web y de archivos menos convencionales, como mp3 y pdf.
+Si están aprendiendo R o ya aprendieron (y por alguna razón nos leen), lo más probable es que la motivación que tuvieron para empezar tenía la siguiente forma:</description>
+    </item>
     
     <item>
       <title>Variables en R</title>
